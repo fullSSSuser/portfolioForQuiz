@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Demo with Chapters</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎬 Product Demo for Quiz</h1>
+            <p class="subtitle">A specialized platform built for interactive and efficient learning</p>
+        </header>
+        
+        <div class="main-content">
+            <div class="video-section">
+                <div class="video-wrapper">
+                    <video id="mainVideo" controls poster="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80">
+                        <source src="videoDemo/demo0.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    <div class="video-controls">
+                        <button class="control-btn" id="playPause">
+                            <span>▶️</span> Play/Pause
+                        </button>
+                        <button class="control-btn" id="restartBtn">
+                            <span>🔄</span> Restart
+                        </button>
+                        <div class="time-display" id="timeDisplay">0:00 / 0:00</div>
+                    </div>
+                </div>
+                
+                <div class="chapter-script">
+                    <h2 class="script-title">📝 Current Chapter Script</h2>
+                    <div class="script-content" id="scriptContent">
+                        Select a chapter to see its detailed description...
+                    </div>
+                </div>
+            </div>
+            
+            <div class="chapters-section">
+                <h2 class="chapters-title">📋 Chapters</h2>
+                <ul class="chapters-list" id="chaptersList">
+                    </ul>
+            </div>
+        </div>
+        
+        <div class="profile-section">
+            <div class="profile-container">
+                <div class="profile-avatar">
+                    <img src="assets/profile1.jpg" alt="Vu Ngoc Ngoc" style="width: 110%; height: 110%; border-radius: 50%;">
+                </div>
+                <div class="profile-info">
+                    <h2 class="profile-name">Vu Ngoc Ngoc</h2>
+                    <div class="profile-title">Software Developer</div>
+                    <p class="profile-description">
+                        I build intuitive software solutions with focus on user experience and performance. 
+                        Passionately about creating elegant, efficient applications that solve real-world problems 
+                        while providing seamless user interactions.
+                    </p>
+                    <div class="profile-contact">
+                        <a href="mailto:ngocvnhe171623@fpt.edu.vn" class="contact-item">
+                            <span class="contact-icon">📧</span>
+                            ngocvnhe171623@fpt.edu.vn
+                        </a>
+                        <a href="tel:0867628902" class="contact-item">
+                            <span class="contact-icon">📱</span>
+                            0867628902
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
