@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product Demo with Chapters</title>
+    <title>Product Demo</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -24,280 +24,281 @@
         .container {
             max-width: 1200px;
             margin: 0 auto;
-            background-color: white;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
         }
 
         header {
-            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
-            color: white;
-            padding: 30px;
             text-align: center;
+            margin-bottom: 30px;
         }
 
         header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
+            font-size: 2.2rem;
+            margin-bottom: 8px;
+            color: #2c3e50;
         }
 
         .subtitle {
-            font-size: 1.2rem;
-            opacity: 0.9;
+            font-size: 1rem;
+            color: #666;
             max-width: 700px;
             margin: 0 auto;
         }
 
-        .main-content {
-            display: flex;
-            flex-wrap: wrap;
-            padding: 30px;
-            gap: 30px;
+        /* Minimalist Horizontal Timeline */
+        .timeline-container {
+            margin-bottom: 40px;
         }
 
-        .video-section {
-            flex: 1;
-            min-width: 300px;
+        .timeline-track {
+            position: relative;
+            height: 2px;
+            background-color: #e0e0e0;
+            margin: 40px 20px 20px;
+        }
+
+        .timeline-progress {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            background-color: #6a11cb;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .timeline-milestones {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+        }
+
+        .milestone-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            padding: 0 10px;
+            position: relative;
+            top: -28px;
+        }
+
+        .milestone-dot {
+            width: 14px;
+            height: 14px;
+            background-color: #bbb;
+            border-radius: 50%;
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 2;
+        }
+
+        .milestone-item.active .milestone-dot {
+            background-color: #6a11cb;
+            transform: scale(1.3);
+            box-shadow: 0 0 0 3px rgba(106, 17, 203, 0.2);
+        }
+
+        .milestone-item.completed .milestone-dot {
+            background-color: #4CAF50;
+        }
+
+        .milestone-title {
+            font-size: 0.9rem;
+            color: #666;
+            text-align: center;
+            max-width: 180px;
+            line-height: 1.3;
+            transition: color 0.3s ease;
+            font-weight: 500;
+        }
+
+        .milestone-item.active .milestone-title {
+            color: #6a11cb;
+            font-weight: 600;
+        }
+
+        /* Main Video Content */
+        .video-container {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            margin-bottom: 40px;
         }
 
         .video-wrapper {
-            background-color: #1a1a1a;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            margin-bottom: 25px;
-        }
-
-        .youtube-container {
             position: relative;
-            padding-bottom: 56.25%; /* 16:9 aspect ratio */
-            height: 0;
-            overflow: hidden;
+            background-color: #000;
         }
 
-        .youtube-container iframe {
-            position: absolute;
-            top: 0;
-            left: 0;
+        video {
             width: 100%;
-            height: 100%;
-            border: none;
+            display: block;
+            max-height: 540px;
         }
 
+        .video-info {
+            padding: 25px;
+        }
+
+        .video-title {
+            font-size: 1.5rem;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .video-description {
+            color: #555;
+            line-height: 1.7;
+            font-size: 1.05rem;
+        }
+
+        /* Video Controls */
         .video-controls {
-            background-color: #2c2c2c;
-            padding: 15px 20px;
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 12px 20px;
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 15px;
-            flex-wrap: wrap;
         }
 
         .control-btn {
-            background: linear-gradient(to right, #6a11cb, #2575fc);
+            background: rgba(255, 255, 255, 0.1);
             color: white;
             border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
+            padding: 8px 16px;
+            border-radius: 6px;
             cursor: pointer;
             display: flex;
             align-items: center;
             gap: 8px;
-            font-weight: 600;
-            transition: all 0.3s ease;
+            font-weight: 500;
+            transition: all 0.2s ease;
         }
 
         .control-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 10px rgba(106, 17, 203, 0.3);
-        }
-
-        .control-btn:active {
-            transform: translateY(0);
+            background: rgba(255, 255, 255, 0.2);
         }
 
         .time-display {
             color: #ddd;
             font-family: monospace;
-            font-size: 1.1rem;
-            margin-left: auto;
-            padding: 8px 12px;
-            background-color: rgba(0, 0, 0, 0.3);
+            font-size: 1rem;
+            padding: 6px 12px;
+            background-color: rgba(255, 255, 255, 0.1);
             border-radius: 4px;
         }
 
-        .chapter-script {
-            background-color: #f8f9fa;
-            border-radius: 10px;
-            padding: 25px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-        }
-
-        .script-title {
-            color: #2c3e50;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #6a11cb;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .script-content {
-            line-height: 1.7;
-            min-height: 120px;
-            color: #444;
-        }
-
-        .chapters-section {
-            flex: 0 0 350px;
-            background-color: #f8f9fa;
-            border-radius: 10px;
-            padding: 25px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-        }
-
-        .chapters-title {
-            color: #2c3e50;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #2575fc;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .chapters-list {
-            list-style: none;
-        }
-
-        .chapter-item {
-            padding: 15px;
-            margin-bottom: 10px;
-            background-color: white;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border-left: 4px solid transparent;
-        }
-
-        .chapter-item:hover {
-            transform: translateX(5px);
-            background-color: #eef2ff;
-        }
-
-        .chapter-item.active {
-            border-left: 4px solid #6a11cb;
-            background-color: #eef2ff;
-            box-shadow: 0 3px 10px rgba(106, 17, 203, 0.1);
-        }
-
-        .chapter-time {
-            font-size: 0.9rem;
-            color: #6a11cb;
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-
-        .chapter-title {
-            font-weight: 600;
-            color: #2c3e50;
-            margin-bottom: 8px;
-        }
-
-        .chapter-desc {
-            font-size: 0.95rem;
-            color: #666;
-        }
-
+        /* Profile Section */
         .profile-section {
+            background-color: white;
+            border-radius: 12px;
             padding: 30px;
-            background-color: #f8f9fa;
-            border-top: 1px solid #eaeaea;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
         }
 
         .profile-container {
             display: flex;
-            flex-wrap: wrap;
             align-items: center;
-            gap: 30px;
+            gap: 25px;
         }
 
         .profile-avatar {
-            flex: 0 0 150px;
+            flex: 0 0 100px;
         }
 
         .profile-avatar img {
-            width: 150px;
-            height: 150px;
+            width: 100px;
+            height: 100px;
             border-radius: 50%;
             object-fit: cover;
-            border: 5px solid white;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border: 3px solid white;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
         }
 
         .profile-info {
             flex: 1;
-            min-width: 300px;
         }
 
         .profile-name {
-            font-size: 1.8rem;
+            font-size: 1.4rem;
             color: #2c3e50;
             margin-bottom: 5px;
         }
 
         .profile-title {
-            font-size: 1.1rem;
+            font-size: 1rem;
             color: #6a11cb;
             font-weight: 600;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
         }
 
         .profile-description {
             color: #555;
-            margin-bottom: 20px;
-            line-height: 1.7;
+            margin-bottom: 15px;
+            line-height: 1.6;
+            font-size: 0.95rem;
         }
 
         .profile-contact {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 8px;
         }
 
         .contact-item {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             color: #2575fc;
             text-decoration: none;
+            font-size: 0.95rem;
             transition: color 0.3s;
         }
 
         .contact-item:hover {
             color: #6a11cb;
-            text-decoration: underline;
         }
 
-        @media (max-width: 900px) {
-            .main-content {
-                flex-direction: column;
-            }
-            
-            .chapters-section {
-                width: 100%;
-            }
+        /* Loading indicator */
+        .loading-indicator {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 300px;
+            background-color: #f0f0f0;
+        }
+        
+        .spinner {
+            border: 3px solid rgba(0, 0, 0, 0.1);
+            border-radius: 50%;
+            border-top: 3px solid #6a11cb;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
 
-        @media (max-width: 600px) {
+        /* Responsive Design */
+        @media (max-width: 768px) {
             header h1 {
-                font-size: 2rem;
+                font-size: 1.8rem;
             }
             
-            .subtitle {
-                font-size: 1rem;
+            .video-title {
+                font-size: 1.3rem;
+            }
+            
+            .milestone-title {
+                font-size: 0.8rem;
+                max-width: 140px;
             }
             
             .profile-container {
@@ -305,75 +306,139 @@
                 text-align: center;
             }
             
+            .profile-avatar {
+                flex: 0 0 auto;
+            }
+            
+            .profile-contact {
+                align-items: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .timeline-milestones {
+                overflow-x: auto;
+                padding-bottom: 10px;
+                justify-content: flex-start;
+                gap: 20px;
+            }
+            
+            .milestone-item {
+                flex: 0 0 auto;
+            }
+            
             .video-controls {
-                justify-content: center;
+                flex-wrap: wrap;
             }
             
             .time-display {
-                margin-left: 0;
+                order: 3;
                 width: 100%;
                 text-align: center;
+                margin-top: 5px;
             }
+        }
+
+        /* Auto-play toggle (minimal) */
+        .auto-play-toggle {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 10;
+        }
+
+        .toggle-checkbox {
+            display: none;
+        }
+
+        .toggle-label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: white;
+            font-size: 0.85rem;
+            cursor: pointer;
+            opacity: 0.8;
+            transition: opacity 0.2s;
+        }
+
+        .toggle-label:hover {
+            opacity: 1;
+        }
+
+        .toggle-icon {
+            font-size: 1.1rem;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1><i class="fas fa-video"></i> Product Demo for Quiz</h1>
-            <p class="subtitle">A specialized platform built for interactive and efficient learning with YouTube integration</p>
+            <h1>Product Demo</h1>
+            <p class="subtitle">Interactive demonstration with milestone navigation</p>
         </header>
         
-        <div class="main-content">
-            <div class="video-section">
-                <div class="video-wrapper">
-                    <div class="youtube-container">
-                        <!-- Embedded YouTube video -->
-                        <iframe id="youtubePlayer" 
-                                src="https://www.youtube.com/embed/DstYUT0odg8?enablejsapi=1&origin=http://localhost" 
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                                allowfullscreen>
-                        </iframe>
-                    </div>
-                    <div class="video-controls">
-                        <button class="control-btn" id="playPauseBtn">
-                            <i class="fas fa-play"></i> Play/Pause
-                        </button>
-                        <button class="control-btn" id="restartBtn">
-                            <i class="fas fa-redo"></i> Restart
-                        </button>
-                        <div class="time-display" id="timeDisplay">0:00 / 0:00</div>
-                    </div>
-                </div>
-                
-                <div class="chapter-script">
-                    <h2 class="script-title"><i class="fas fa-file-alt"></i> Current Chapter Script</h2>
-                    <div class="script-content" id="scriptContent">
-                        Select a chapter to see its detailed description. Each chapter covers a different aspect of our product demo.
-                    </div>
-                </div>
+        <!-- Minimalist Horizontal Timeline -->
+        <div class="timeline-container">
+            <div class="timeline-track">
+                <div class="timeline-progress" id="timelineProgress"></div>
             </div>
-            
-            <div class="chapters-section">
-                <h2 class="chapters-title"><i class="fas fa-list-ol"></i> Chapters</h2>
-                <ul class="chapters-list" id="chaptersList">
-                    <!-- Chapters will be added by JavaScript -->
-                </ul>
+            <div class="timeline-milestones" id="timelineMilestones">
+                <!-- Milestones will be populated by JavaScript -->
             </div>
         </div>
         
+        <!-- Main Video Content -->
+        <div class="video-container">
+            <div class="video-wrapper">
+                <!-- Auto-play toggle (minimal) -->
+                <div class="auto-play-toggle">
+                    <input type="checkbox" id="autoPlayToggle" class="toggle-checkbox" checked>
+                    <label for="autoPlayToggle" class="toggle-label">
+                        <span class="toggle-icon">▶️</span>
+                        <span>Auto</span>
+                    </label>
+                </div>
+                
+                <div class="loading-indicator" id="videoLoading">
+                    <div class="spinner"></div>
+                </div>
+                <video id="mainVideoPlayer" controls playsinline preload="metadata" style="display: none;">
+                    <source src="" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <div class="video-controls">
+                    <button class="control-btn" id="playPauseBtn">
+                        <i class="fas fa-play"></i>
+                    </button>
+                    <button class="control-btn" id="restartBtn">
+                        <i class="fas fa-redo"></i>
+                    </button>
+                    <div class="time-display" id="timeDisplay">0:00 / 0:00</div>
+                </div>
+            </div>
+            
+            <div class="video-info">
+                <h2 class="video-title" id="videoTitleText">Select a milestone to begin</h2>
+                <div class="video-description" id="videoDescription">
+                    Click on any milestone in the timeline above to load and play the corresponding video.
+                </div>
+            </div>
+        </div>
+        
+        <!-- Profile Section -->
         <div class="profile-section">
             <div class="profile-container">
                 <div class="profile-avatar">
-                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80" alt="Vu Ngoc Ngoc">
+                    <img src="assets/profile1.jpg" alt="Vu Ngoc Ngoc" onerror="this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=774&q=80'">
                 </div>
                 <div class="profile-info">
                     <h2 class="profile-name">Vu Ngoc Ngoc</h2>
                     <div class="profile-title">Software Developer</div>
                     <p class="profile-description">
                         I build intuitive software solutions with focus on user experience and performance. 
-                        Passionately about creating elegant, efficient applications that solve real-world problems 
-                        while providing seamless user interactions. This demo showcases a YouTube-integrated product tour.
+                        Passionate about creating elegant, efficient applications that solve real-world problems 
+                        while providing seamless user interactions.
                     </p>
                     <div class="profile-contact">
                         <a href="mailto:ngocvnhe171623@fpt.edu.vn" class="contact-item">
@@ -391,233 +456,277 @@
     </div>
 
     <script>
-        // YouTube API integration
-        let player;
-        let currentChapter = 0;
-        let chapterInterval;
-        
-        // Define chapters with timestamps (in seconds) and content
-        const chapters = [
+        // Milestones data
+        const milestones = [
             {
-                time: 0,
-                title: "Introduction to Quiz Platform",
-                description: "Welcome and overview of the interactive quiz platform. Learn about the main features and what makes our platform unique for educational purposes.",
-                script: "Welcome to our interactive quiz platform demo. In this video, we'll explore how our platform revolutionizes learning through engaging quizzes, real-time feedback, and adaptive learning paths. Our platform is designed to make learning both effective and enjoyable."
+                id: 1,
+                title: "Introduction & Overview",
+                duration: "1:30",
+                videoSrc: "videoDemo/demo1.mp4",
+                description: "Welcome to our interactive quiz platform. This overview covers the main dashboard, navigation, and key features that make learning engaging and effective."
             },
             {
-                time: 15,
-                title: "User Dashboard Walkthrough",
-                description: "Explore the user dashboard interface, navigation, and key features available to learners.",
-                script: "Here's the user dashboard - the central hub for all learning activities. From here, users can access their courses, track progress, view achievements, and join live sessions. The clean interface ensures users can focus on learning without distractions."
+                id: 2,
+                title: "Creating Quizzes",
+                duration: "2:15",
+                videoSrc: "videoDemo/demo2.mp4",
+                description: "Learn how to create engaging quizzes with our intuitive editor. Add multiple question types and multimedia elements to make quizzes interactive."
             },
             {
-                time: 45,
-                title: "Creating Interactive Quizzes",
-                description: "Step-by-step guide to creating engaging quizzes with multiple question types and multimedia support.",
-                script: "Creating quizzes is intuitive with our platform. You can choose from multiple question types: multiple choice, true/false, matching, and open-ended questions. Add images, videos, or audio to make questions more engaging. Set time limits and difficulty levels to customize the experience."
+                id: 3,
+                title: "Live Sessions",
+                duration: "2:00",
+                videoSrc: "videoDemo/demo3.mp4",
+                description: "Discover how to conduct live quiz sessions with real-time scoring and leaderboards. Participants join using a unique code and see progress in real-time."
             },
             {
-                time: 90,
-                title: "Live Quiz Sessions",
-                description: "How to conduct and participate in live quiz sessions with real-time scoring and leaderboards.",
-                script: "Live quiz sessions bring excitement to learning. Participants join using a unique code, answer questions in real-time, and see their scores on a dynamic leaderboard. Educators can control the pace, reveal answers, and provide instant feedback to all participants."
+                id: 4,
+                title: "Analytics Dashboard",
+                duration: "1:45",
+                videoSrc: "videoDemo/demo4.mp4",
+                description: "Explore the analytics dashboard that provides insights into learning progress. Track performance and identify knowledge gaps."
             },
             {
-                time: 135,
-                title: "Analytics & Progress Tracking",
-                description: "Detailed analytics for both learners and educators to track progress and identify areas for improvement.",
-                script: "Our analytics dashboard provides detailed insights into learning progress. For students: track performance across topics, identify strengths and weaknesses. For educators: monitor class performance, question effectiveness, and learning gaps. Data visualization makes complex information easy to understand."
-            },
-            {
-                time: 180,
-                title: "Mobile Experience",
-                description: "Demonstration of the platform's responsive design and mobile app functionality.",
-                script: "Learning happens everywhere, so our platform is fully responsive across all devices. The mobile app offers the full feature set with an interface optimized for touch interaction. Users can take quizzes on-the-go, receive notifications, and sync progress across devices seamlessly."
-            },
-            {
-                time: 220,
-                title: "Conclusion & Next Steps",
-                description: "Summary of key features and how to get started with the platform for your learning needs.",
-                script: "To summarize, our platform offers: engaging quiz creation, live interactive sessions, detailed analytics, and cross-device compatibility. Ready to transform learning? Sign up for a free trial at our website or contact our team for a personalized demo. Thank you for watching!"
+                id: 5,
+                title: "Mobile & Future",
+                duration: "1:30",
+                videoSrc: "videoDemo/demo5.mp4",
+                description: "See how our platform delivers a seamless experience across all devices. Preview upcoming features and integrations."
             }
         ];
+
+        // State management
+        let currentMilestoneIndex = 0;
+        let autoPlayEnabled = true;
+        let videoPlayer = null;
+        let completedMilestones = new Set();
         
-        // Initialize the YouTube player when API is ready
-        function onYouTubeIframeAPIReady() {
-            player = new YT.Player('youtubePlayer', {
-                events: {
-                    'onReady': onPlayerReady,
-                    'onStateChange': onPlayerStateChange
-                }
-            });
+        // Initialize the application
+        function initApp() {
+            videoPlayer = document.getElementById('mainVideoPlayer');
+            
+            // Create timeline milestones
+            createTimelineMilestones();
+            
+            // Load the first milestone
+            loadMilestone(currentMilestoneIndex);
+            
+            // Set up event listeners
+            setupEventListeners();
+            
+            // Update timeline progress
+            updateTimelineProgress();
+            
+            // Set up video player
+            setupVideoPlayer();
         }
         
-        function onPlayerReady(event) {
-            // Initialize chapters list
-            initializeChapters();
+        // Create timeline milestones
+        function createTimelineMilestones() {
+            const timelineMilestones = document.getElementById('timelineMilestones');
             
-            // Update time display periodically
-            updateTimeDisplay();
-            setInterval(updateTimeDisplay, 1000);
-            
-            // Update current chapter based on video time
-            setInterval(updateCurrentChapter, 1000);
-            
-            // Set video duration in time display
-            const duration = player.getDuration();
-            document.getElementById('timeDisplay').textContent = `0:00 / ${formatTime(duration)}`;
-        }
-        
-        function onPlayerStateChange(event) {
-            // Update play/pause button based on player state
-            const playPauseBtn = document.getElementById('playPauseBtn');
-            const icon = playPauseBtn.querySelector('i');
-            
-            if (event.data === YT.PlayerState.PLAYING) {
-                icon.className = 'fas fa-pause';
-            } else {
-                icon.className = 'fas fa-play';
-            }
-        }
-        
-        // Initialize chapters list in the UI
-        function initializeChapters() {
-            const chaptersList = document.getElementById('chaptersList');
-            
-            chapters.forEach((chapter, index) => {
-                const chapterItem = document.createElement('li');
-                chapterItem.className = 'chapter-item';
-                chapterItem.innerHTML = `
-                    <div class="chapter-time">${formatTime(chapter.time)}</div>
-                    <div class="chapter-title">${chapter.title}</div>
-                    <div class="chapter-desc">${chapter.description}</div>
+            milestones.forEach((milestone, index) => {
+                const milestoneElement = document.createElement('div');
+                milestoneElement.className = 'milestone-item';
+                if (index === currentMilestoneIndex) milestoneElement.classList.add('active');
+                if (completedMilestones.has(index)) milestoneElement.classList.add('completed');
+                milestoneElement.setAttribute('data-index', index);
+                
+                milestoneElement.innerHTML = `
+                    <div class="milestone-dot"></div>
+                    <div class="milestone-title">${milestone.title}</div>
                 `;
                 
-                chapterItem.addEventListener('click', () => {
-                    jumpToChapter(index);
+                // Add click event to switch to this milestone
+                milestoneElement.addEventListener('click', () => {
+                    switchToMilestone(index);
                 });
                 
-                chaptersList.appendChild(chapterItem);
+                timelineMilestones.appendChild(milestoneElement);
+            });
+        }
+        
+        // Load a specific milestone
+        function loadMilestone(index) {
+            if (index < 0 || index >= milestones.length) return;
+            
+            const milestone = milestones[index];
+            currentMilestoneIndex = index;
+            
+            // Update UI elements
+            document.getElementById('videoTitleText').textContent = milestone.title;
+            document.getElementById('videoDescription').textContent = milestone.description;
+            
+            // Show loading indicator
+            document.getElementById('videoLoading').style.display = 'flex';
+            videoPlayer.style.display = 'none';
+            
+            // Set video source
+            videoPlayer.src = milestone.videoSrc;
+            
+            // Update active milestone in timeline
+            updateActiveMilestone();
+            
+            // Update timeline progress
+            updateTimelineProgress();
+            
+            // Preload next video if available
+            if (index < milestones.length - 1) {
+                preloadVideo(index + 1);
+            }
+        }
+        
+        // Preload a video
+        function preloadVideo(index) {
+            const video = document.createElement('video');
+            video.preload = 'metadata';
+            video.src = milestones[index].videoSrc;
+        }
+        
+        // Switch to a specific milestone
+        function switchToMilestone(index) {
+            // Pause current video if playing
+            if (!videoPlayer.paused) {
+                videoPlayer.pause();
+            }
+            
+            // Load the new milestone
+            loadMilestone(index);
+            
+            // Play the video after a short delay
+            setTimeout(() => {
+                videoPlayer.play().catch(e => {
+                    console.log("Auto-play prevented:", e);
+                });
+            }, 300);
+        }
+        
+        // Update active milestone in timeline
+        function updateActiveMilestone() {
+            const milestoneItems = document.querySelectorAll('.milestone-item');
+            
+            milestoneItems.forEach((item, index) => {
+                item.classList.remove('active');
+                if (index === currentMilestoneIndex) {
+                    item.classList.add('active');
+                }
+                
+                if (completedMilestones.has(index)) {
+                    item.classList.add('completed');
+                }
+            });
+        }
+        
+        // Update timeline progress
+        function updateTimelineProgress() {
+            const progressBar = document.getElementById('timelineProgress');
+            const progressPercent = (currentMilestoneIndex / (milestones.length - 1)) * 100;
+            progressBar.style.width = `${progressPercent}%`;
+        }
+        
+        // Set up video player
+        function setupVideoPlayer() {
+            // Format time as MM:SS
+            function formatTime(seconds) {
+                if (isNaN(seconds)) return "0:00";
+                const mins = Math.floor(seconds / 60);
+                const secs = Math.floor(seconds % 60);
+                return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+            }
+            
+            // Update time display
+            function updateTimeDisplay() {
+                const timeDisplay = document.getElementById('timeDisplay');
+                if (videoPlayer.duration && !isNaN(videoPlayer.duration)) {
+                    timeDisplay.textContent = `${formatTime(videoPlayer.currentTime)} / ${formatTime(videoPlayer.duration)}`;
+                }
+            }
+            
+            // When video metadata is loaded
+            videoPlayer.addEventListener('loadedmetadata', () => {
+                document.getElementById('videoLoading').style.display = 'none';
+                videoPlayer.style.display = 'block';
+                updateTimeDisplay();
             });
             
-            // Set first chapter as active
-            document.querySelectorAll('.chapter-item')[0].classList.add('active');
-            document.getElementById('scriptContent').textContent = chapters[0].script;
+            // Update time during playback
+            videoPlayer.addEventListener('timeupdate', updateTimeDisplay);
+            
+            // When video ends
+            videoPlayer.addEventListener('ended', () => {
+                completedMilestones.add(currentMilestoneIndex);
+                
+                // Update timeline UI
+                const currentMilestoneItem = document.querySelector(`.milestone-item[data-index="${currentMilestoneIndex}"]`);
+                if (currentMilestoneItem) {
+                    currentMilestoneItem.classList.add('completed');
+                }
+                
+                // Auto-play next video if enabled
+                if (autoPlayEnabled && currentMilestoneIndex < milestones.length - 1) {
+                    setTimeout(() => {
+                        switchToMilestone(currentMilestoneIndex + 1);
+                    }, 800);
+                }
+            });
+            
+            // Handle video errors
+            videoPlayer.addEventListener('error', () => {
+                document.getElementById('videoLoading').innerHTML = `
+                    <div style="text-align: center; color: #e74c3c;">
+                        <i class="fas fa-exclamation-triangle" style="font-size: 1.5rem; margin-bottom: 10px;"></i>
+                        <p>Video failed to load</p>
+                    </div>
+                `;
+            });
         }
         
-        // Jump to a specific chapter
-        function jumpToChapter(index) {
-            if (index >= 0 && index < chapters.length) {
-                currentChapter = index;
-                const chapter = chapters[index];
+        // Set up event listeners
+        function setupEventListeners() {
+            // Play/Pause button
+            document.getElementById('playPauseBtn').addEventListener('click', () => {
+                const icon = document.getElementById('playPauseBtn').querySelector('i');
+                if (videoPlayer.paused) {
+                    videoPlayer.play();
+                    icon.className = 'fas fa-pause';
+                } else {
+                    videoPlayer.pause();
+                    icon.className = 'fas fa-play';
+                }
+            });
+            
+            // Restart button
+            document.getElementById('restartBtn').addEventListener('click', () => {
+                videoPlayer.currentTime = 0;
+                videoPlayer.play();
+                document.getElementById('playPauseBtn').querySelector('i').className = 'fas fa-pause';
+            });
+            
+            // Auto-play toggle
+            document.getElementById('autoPlayToggle').addEventListener('change', (e) => {
+                autoPlayEnabled = e.target.checked;
+            });
+            
+            // Keyboard shortcuts
+            document.addEventListener('keydown', (e) => {
+                // Space bar to play/pause
+                if (e.code === 'Space' && !e.target.matches('input, textarea, button')) {
+                    e.preventDefault();
+                    document.getElementById('playPauseBtn').click();
+                }
                 
-                // Seek to chapter time
-                player.seekTo(chapter.time, true);
-                
-                // Update active chapter in UI
-                document.querySelectorAll('.chapter-item').forEach((item, i) => {
-                    if (i === index) {
-                        item.classList.add('active');
-                    } else {
-                        item.classList.remove('active');
+                // Number keys 1-5 to jump to specific milestones
+                if (e.code >= 'Digit1' && e.code <= 'Digit5') {
+                    const milestoneIndex = parseInt(e.code.replace('Digit', '')) - 1;
+                    if (milestoneIndex < milestones.length) {
+                        switchToMilestone(milestoneIndex);
                     }
-                });
-                
-                // Update script content
-                document.getElementById('scriptContent').textContent = chapter.script;
-                
-                // Play video if paused
-                if (player.getPlayerState() !== YT.PlayerState.PLAYING) {
-                    player.playVideo();
                 }
-            }
+            });
         }
         
-        // Update current chapter based on video time
-        function updateCurrentChapter() {
-            const currentTime = player.getCurrentTime();
-            
-            // Find the current chapter based on time
-            let newChapter = 0;
-            for (let i = chapters.length - 1; i >= 0; i--) {
-                if (currentTime >= chapters[i].time) {
-                    newChapter = i;
-                    break;
-                }
-            }
-            
-            // Update if chapter changed
-            if (newChapter !== currentChapter) {
-                currentChapter = newChapter;
-                
-                // Update active chapter in UI
-                document.querySelectorAll('.chapter-item').forEach((item, i) => {
-                    if (i === currentChapter) {
-                        item.classList.add('active');
-                    } else {
-                        item.classList.remove('active');
-                    }
-                });
-                
-                // Update script content
-                document.getElementById('scriptContent').textContent = chapters[currentChapter].script;
-            }
-        }
-        
-        // Update time display
-        function updateTimeDisplay() {
-            const currentTime = player.getCurrentTime();
-            const duration = player.getDuration();
-            
-            if (currentTime && duration) {
-                document.getElementById('timeDisplay').textContent = 
-                    `${formatTime(currentTime)} / ${formatTime(duration)}`;
-            }
-        }
-        
-        // Format time in MM:SS
-        function formatTime(seconds) {
-            const mins = Math.floor(seconds / 60);
-            const secs = Math.floor(seconds % 60);
-            return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
-        }
-        
-        // Control button event listeners
-        document.getElementById('playPauseBtn').addEventListener('click', () => {
-            if (player.getPlayerState() === YT.PlayerState.PLAYING) {
-                player.pauseVideo();
-            } else {
-                player.playVideo();
-            }
-        });
-        
-        document.getElementById('restartBtn').addEventListener('click', () => {
-            player.seekTo(0, true);
-            player.playVideo();
-        });
-        
-        // Keyboard shortcuts
-        document.addEventListener('keydown', (e) => {
-            // Space bar to play/pause
-            if (e.code === 'Space' && !e.target.matches('input, textarea')) {
-                e.preventDefault();
-                document.getElementById('playPauseBtn').click();
-            }
-            
-            // Number keys to jump to chapters (1-7)
-            if (e.code >= 'Digit1' && e.code <= 'Digit7') {
-                const chapterIndex = parseInt(e.code.replace('Digit', '')) - 1;
-                if (chapterIndex < chapters.length) {
-                    jumpToChapter(chapterIndex);
-                }
-            }
-        });
-        
-        // Load YouTube API script
-        const tag = document.createElement('script');
-        tag.src = "https://www.youtube.com/iframe_api";
-        const firstScriptTag = document.getElementsByTagName('script')[0];
-        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+        // Initialize the app
+        document.addEventListener('DOMContentLoaded', initApp);
     </script>
 </body>
 </html>
